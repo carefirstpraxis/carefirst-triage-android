@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(route = Screens.Dashboard) {
-                            DashBoardScreen(navController = navController)
+                            DashBoardScreen(navController = navController, app = application)
                         }
                     }
                 }
@@ -61,7 +61,4 @@ fun Greeting(name: String) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    CarefirsttriageandroidTheme {
-        Greeting("Android")
-    }
 }
