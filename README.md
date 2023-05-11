@@ -1,4 +1,4 @@
 # carefirst-triage-android
 CareFirst Triage - Android
 
-![alt text](http://g.recordit.co/UF4bVF6NXB.gif "Application in action - Android")
+![alt text](http://g.recordit.co/rodJPxWYtO.gif "Application in action - Android")
