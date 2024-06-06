@@ -1,8 +1,6 @@
 package com.carefirstpraxis.carefirst_triage_android
 
 import DataModel
-import LoginUser
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -69,7 +67,7 @@ fun LoginScreen(navController: NavHostController) {
   }
 
   fun login() {
-    var url = "http://192.168.86.29:8080/cfpm/app/"
+    var url = "http://192.168.86.250:8080/cfpm/app/"
     val retrofit =
       Retrofit.Builder()
         .baseUrl(url)
@@ -77,15 +75,17 @@ fun LoginScreen(navController: NavHostController) {
         .build()
 
     val retrofitAPI = retrofit.create(RetrofitAPI::class.java)
-    val loginUser = LoginUser(username.value.text, password.value.text, "", "")
-    val dataModel = DataModel(loginUser)
-    val call: Call<DataModel?>? = retrofitAPI.postData(dataModel)
-
+    val call: Call<DataModel?>? = retrofitAPI.login("{\"username\":${username.value.text},\"password\":${password.value.text},\"clientType\":\"user\",\"module\":\"pm\"}")
     call!!.enqueue(object : Callback<DataModel?> {
       override fun onResponse(call: Call<DataModel?>?, response: Response<DataModel?>) {
         Log.d("LOG RESPONSE:", response.code().toString())
         Log.d("LOG RESPONSE BODY:", response.body().toString())
-        navController.navigate(Routes.Dashboard.route)
+        if (response.body()?.client?.authStatus == 1) {
+          navController.navigate(Routes.Dashboard.route)
+        }
+        else {
+          submitError.value = "Invalid Login"
+        }
       }
 
       override fun onFailure(call: Call<DataModel?>?, t: Throwable) {
